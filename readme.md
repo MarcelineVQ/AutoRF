@@ -3,8 +3,7 @@ Auto Raid Farm
 
 Automatic management of raid farm parties.  
 
-This addon requires party members to be in your leader's friend list. And works best with an addon that auto-accepts part invites.  
-
+This addon requires party members to be in your leader's friend list. And works best with an addon that auto-accepts group invites.  
 
 The intent is that the group forming character adds the farming characters to its friends list and also to `/autorf add` then sits around with this addon on. It will handle inviting the farmers as they come online and kicking them as they go offline.  
 
