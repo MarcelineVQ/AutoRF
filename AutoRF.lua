@@ -39,8 +39,9 @@ end
 -- if party destruct flag is set, don't invite anyone until the party is disbanded
 local in_group = {}
 local party_destruct = false
+local enabled = true
 local function OnEvent()
-  if AutoRFDB.enabled then
+  if enabled then
     local rcount = GetNumRaidMembers()
     local pcount = GetNumPartyMembers()
     local no_party = pcount + rcount == 0
@@ -95,6 +96,7 @@ local function OnEvent()
           -- is the above just: s[k] = ((AutoManaSettings[k] == nil) and defaults[k]) or AutoManaSettings[k]
           AutoRFDB = s
       end
+      enabled = AutoRFDB.enabled
     end
   end 
 end
