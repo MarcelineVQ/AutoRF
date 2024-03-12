@@ -14,6 +14,4 @@ The friends list requirement is due to api limitations. This addon is intended t
 /autorf
 ```
 
-
-
 * This addon is made by and for `Weird Vibes` of Turtle WoW.  
