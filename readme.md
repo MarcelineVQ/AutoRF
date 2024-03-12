@@ -13,4 +13,8 @@ The friends list requirement is due to api limitations. This addon is intended t
 /autorf
 ```
 
+Example:  
+Non-Farming Leader `A` adds `B` and `C` to his friend's list then types `/autorf add a` and `/autorf add b`  
+`B` and `C` are then logged into and will be automatically sent invites to `A`'s raid after a short delay to allow addons to load up.  
+
 * This addon is made by and for `Weird Vibes` of Turtle WoW.  
