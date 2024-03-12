@@ -1,0 +1,6 @@
+## Interface: 11200
+## Title: Auto Raid Farm
+## Notes: Manages your raid farm groups
+## Author: ehawne
+## SavedVariablesPerCharacter: AutoRFDB
+AutoRF.lua
