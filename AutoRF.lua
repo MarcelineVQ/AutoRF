@@ -13,7 +13,7 @@ AutoRF = CreateFrame("Frame")
 local defaults = {
   enabled = true,
   watch_names = {},
-  kick_if_ghosts = false,
+  -- kick_if_ghosts = false,
   queue = {},
   delay = 5,
   -- add_queue = {},
@@ -37,6 +37,7 @@ function pollFriends()
 end
 
 -- if party destruct flag is set, don't invite anyone until the party is disbanded
+-- provision a queue so if a re-login is done but destruct is still happening an invite goes out after the destruct?
 local in_group = {}
 local party_destruct = false
 local enabled = true
@@ -49,7 +50,7 @@ local function OnEvent()
       debug_print("friendlist event")
       for i=1,rcount do
         local id = "raid"..i
-        if not UnitIsConnected(id) or (AutoRFDB.kick_if_ghosts and UnitIsGhost(id)) then
+        if not UnitIsConnected(id) then
           arf_print("AutoRF: Begining party teardown.")
           UninviteFromRaid(UnitInRaid(id))
           party_destruct = true
@@ -103,6 +104,7 @@ end
 
 local function OnUpdate()
   if AutoRFDB.enabled then
+    -- do invite queues
     for k,v in pairs(AutoRFDB.queue) do
       AutoRFDB.queue[k] = v + arg1
       if AutoRFDB.queue[k] > AutoRFDB.delay then
@@ -117,7 +119,7 @@ end
 -- go through and update raid recipes
 
 AutoRF:RegisterEvent("FRIENDLIST_UPDATE") -- fired when member goes online or offline
-AutoRF:RegisterEvent("PARTY_MEMBERS_CHANGED") -- fired on player join or leaves party or offlines in raid
+-- AutoRF:RegisterEvent("PARTY_MEMBERS_CHANGED") -- fired on player join or leaves party or offlines in raid
 AutoRF:RegisterEvent("RAID_TARGET_UPDATE") -- fired on player join or leave, or offline, party or raid. also when raid forms
 AutoRF:RegisterEvent("ADDON_LOADED")
 AutoRF:SetScript("OnEvent", OnEvent)
@@ -164,9 +166,9 @@ local function handleCommands(msg,editbox)
     local t = {}
     for k,_ in pairs(AutoRFDB.watch_names) do table.insert(t,k) end
     arf_print(table.concat(t, ", "))
-  elseif args[1] == "ghost" then
-    AutoRFDB.kick_if_ghosts = not AutoRFDB.kick_if_ghosts
-    arf_print("AutoRF will kick ghosts.")
+  -- elseif args[1] == "ghost" then
+  --   AutoRFDB.kick_if_ghosts = not AutoRFDB.kick_if_ghosts
+  --   arf_print("AutoRF will kick ghosts.")
   elseif args[1] == "delay" then
     local n = tonumber(args[2])
     if n and n > 0 then
@@ -181,7 +183,7 @@ local function handleCommands(msg,editbox)
     arf_print("[list] to see who's on the watch list.")
     arf_print("[add] to add a friend to the invite watch list.")
     arf_print("[rem] to remove a friend to the invite watch list.")
-    arf_print("[ghost] to kick players if they release.")
+    -- arf_print("[ghost] to kick players if they release.") -- way too much trouble
     arf_print("[delay] in seconds to set the invite delay, accounts for addon loading.")
   end
 end
