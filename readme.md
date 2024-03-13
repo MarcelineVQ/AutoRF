@@ -14,7 +14,7 @@ The friends list requirement is due to api limitations. This addon is intended t
 ```
 
 Example:  
-Non-Farming Leader `A` adds `B` and `C` to his friend's list then types `/autorf add a` and `/autorf add b`  
+Leader `A` adds `B` and `C` to his friend's list then types `/autorf add a` and `/autorf add b`  
 `B` and `C` are then logged into and will be automatically sent invites to `A`'s raid after a short delay to allow addons to load up.  
 When `B` logs out he is kicked from the group and will not be re-invited until `C` is also logged out and kicked.  
 A new raid will be formed when one of them logs back in after this point.  

@@ -40,9 +40,8 @@ end
 -- provision a queue so if a re-login is done but destruct is still happening an invite goes out after the destruct?
 local in_group = {}
 local party_destruct = false
-local enabled = true
 local function OnEvent()
-  if enabled then
+  if AutoRFDB.enabled then
     local rcount = GetNumRaidMembers()
     local pcount = GetNumPartyMembers()
     local no_party = pcount + rcount == 0
@@ -83,23 +82,27 @@ local function OnEvent()
       if pcount > 0 and rcount == 0 then
         ConvertToRaid()
       end
-    elseif event == "ADDON_LOADED" then
-      AutoRF:UnregisterEvent("ADDON_LOADED")
-      if not AutoRFDB then
-        AutoRFDB = defaults -- initialize default settings
-        else -- or check that we only have the current settings format
-          local s = {}
-          for k,v in pairs(defaults) do
-            if AutoRFDB[k] == nil -- specifically nil
-              then s[k] = defaults[k]
-              else s[k] = AutoRFDB[k] end
-          end
-          -- is the above just: s[k] = ((AutoManaSettings[k] == nil) and defaults[k]) or AutoManaSettings[k]
-          AutoRFDB = s
-      end
-      enabled = AutoRFDB.enabled
     end
   end 
+end
+
+local function Init()
+  if event == "ADDON_LOADED" and arg1 == "AutoRF" then
+    AutoRF:UnregisterEvent("ADDON_LOADED")
+    if not AutoRFDB then
+      AutoRFDB = defaults -- initialize default settings
+      else -- or check that we only have the current settings format
+        local s = {}
+        for k,v in pairs(defaults) do
+          if AutoRFDB[k] == nil -- specifically nil
+            then s[k] = defaults[k]
+            else s[k] = AutoRFDB[k] end
+        end
+        -- is the above just: s[k] = ((AutoManaSettings[k] == nil) and defaults[k]) or AutoManaSettings[k]
+        AutoRFDB = s
+    end
+    AutoRF:SetScript("OnEvent", OnEvent)
+  end
 end
 
 local function OnUpdate()
@@ -122,7 +125,7 @@ AutoRF:RegisterEvent("FRIENDLIST_UPDATE") -- fired when member goes online or of
 -- AutoRF:RegisterEvent("PARTY_MEMBERS_CHANGED") -- fired on player join or leaves party or offlines in raid
 AutoRF:RegisterEvent("RAID_TARGET_UPDATE") -- fired on player join or leave, or offline, party or raid. also when raid forms
 AutoRF:RegisterEvent("ADDON_LOADED")
-AutoRF:SetScript("OnEvent", OnEvent)
+AutoRF:SetScript("OnEvent", Init)
 AutoRF:SetScript("OnUpdate", OnUpdate)
 
 local function handleCommands(msg,editbox)
