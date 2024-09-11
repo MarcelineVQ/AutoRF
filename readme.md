@@ -1,7 +1,8 @@
 Auto Raid Farm
 ===
-
 Automatic management of raid farm parties.  
+---
+* Due to a recent change in Turtle WoW instance reset methods this addon is the ideal way to manage non-raid instance farm resets as well.
 
 This addon requires party members to be in your leader's friend list. And works best with an addon that auto-accepts group invites.  
 

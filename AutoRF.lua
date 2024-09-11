@@ -76,6 +76,7 @@ local function OnEvent()
     elseif event == "RAID_TARGET_UPDATE" then
       debug_print("party changed")
       if no_party and party_destruct then
+        -- ResetInstances()
         arf_print("AutoRF: Finished party teardown.")
         party_destruct = false
       end
